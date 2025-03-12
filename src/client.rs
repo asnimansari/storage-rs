@@ -702,6 +702,7 @@ impl StorageClient {
         bucket_id: &str,
         path: &str,
         expires_in: u64,
+        options: Option<DownloadOptions<'_>>,
     ) -> Result<String, Error> {
         let mut headers = self.headers.clone();
         headers.insert(CONTENT_TYPE, HeaderValue::from_str("application/json")?);
@@ -712,9 +713,11 @@ impl StorageClient {
             );
         }
 
-        let payload = CreateSignedUrlPayload { expires_in };
+        let payload = CreateSignedUrlPayload { expires_in, transform: options.and_then(|opts| opts.transform) };
+
 
         let body = serde_json::to_string(&payload)?;
+        println!("body: {}", body);
 
         let res = self
             .client
