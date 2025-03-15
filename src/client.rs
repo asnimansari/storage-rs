@@ -713,12 +713,18 @@ impl StorageClient {
             );
         }
 
+<<<<<<< Updated upstream
         let payload = CreateSignedUrlPayload {
             expires_in,
             transform: options.and_then(|opts| opts.transform),
         };
+=======
+        let payload = CreateSignedUrlPayload { expires_in, transform: options.and_then(|opts| opts.transform) };
+
+>>>>>>> Stashed changes
 
         let body = serde_json::to_string(&payload)?;
+        println!("body: {}", body);
 
         let res = self
             .client
